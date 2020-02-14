@@ -1,1 +1,44 @@
 
+1. Game Play Analysis I 
+2. Game Play Analysis II
+select 
+	a.player_id,
+	a.device_id
+from
+	Activity a
+join (
+	select	
+		player_id,
+		MIN(event_date) event_date
+	from
+		Activity
+	group by 
+		player_id	
+) t on a.player_id = t.player_id and a.event_date = t.event_date	
+
+3. Employee Bonus
+select 
+	name,
+	isnull(bonus, 0) bonus
+from
+	 Employee3 e
+left join Bonus b on e.empId = b.empId	 
+where ISNULL(b.bonus, 0) < 1000
+
+ 4. Find Customer Referee
+ 5. Game Play Analysis II
+ select 
+	t1.player_id,
+	t1.event_date,
+	sum(t2.games_played) games_played_so_far
+from	
+	Activity t1
+left join Activity t2 on t1.player_id = t2.player_id and t1.event_date >= t2.event_date
+group by
+	t1.player_id,
+	t1.event_date
+order by t1.player_id
+
+6. 
+
+ 
