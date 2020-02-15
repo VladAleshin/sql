@@ -63,7 +63,70 @@ group by
 order by
 	COUNT(Name) desc
 	
-9. 	
+9. Count Student Number in Departments
+select
+	dept_name,
+	COUNT(distinct student_id) student_number,
+	COUNT(*)	
+from
+	Department t1
+left join Student t2 on t1.dept_id = t2.dept_id			
+group by dept_name
+order by COUNT(distinct student_id) desc
+
+
+10. Friend Requests II: Who Has Most Friend?
+
+with cte as ( 
+select 
+	requester_id id_person
+from 
+	request_accepted
+
+union all
+
+select 
+	accepter_id
+from 
+	request_accepted
+)
+
+select top 1
+	id_person	
+from cte
+group by
+	 id_person
+order by 
+	 COUNT(id_person) desc
+
+
+
+11. Tree Node (Write a query to print the node id and the type of the node. Sort your output by the node id. The result for the above sample is: )
+
+select 
+	id,
+	case 
+		when p_id is null then 'Root'
+		when id in (select distinct p_id from tree) then 'Inner'
+		else 'Leaf'
+	end Type
+from
+	tree	
+order by id	
+
+12. Exchange Seats
+select 
+	t1.id,	
+	case
+		when t2.id is null and t3.id is null then t1.student 
+		when t2.id is null then t3.student
+		when t3.id is null then t2.student		
+	end	student
+from
+	seat t1
+left join seat t2 on t1.id = t2.id - 1 and t1.id % 2 = 1			
+left join seat t3 on t1.id = t3.id + 1 and t1.id % 2 = 0
+
 	
 
 
