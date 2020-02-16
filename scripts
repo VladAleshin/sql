@@ -174,6 +174,35 @@ where
 						activity = 'login' and DATEDIFF(DAY, activity_date, '20190630') > 90) 			
 group by 
 	activity_date
+	
+	
+14. Highest Grade For Each Student
+
+with t1 as(
+	select
+		student_id,
+		MAX(grade) grade
+	from
+		Enrollments
+	group by
+		student_id			
+), t2 as (
+	select
+		e.student_id,
+		e.course_id,
+		e.grade
+	from Enrollments e
+	join t1 on t1.student_id = e.student_id and t1.grade = e.grade
+)  
+
+select 
+	student_id,
+	min(course_id) course_id,
+	grade	
+from
+	t2	
+group by student_id, grade	
+order by student_id
 
 
 
