@@ -204,6 +204,34 @@ from
 group by student_id, grade	
 order by student_id
 
+15. Market Analysis II (Hard)
+
+with cte1 as(
+select 
+	t1.seller_id,
+	t1.item_id,
+	t2.favorite_brand,
+	t3.item_brand,
+	t1.order_date,
+	DENSE_RANK() OVER(partition by seller_id order by order_date) rank	 
+from
+	Orders t1
+left join Users t2 on t1.seller_id = t2.user_id
+left join Items t3 on t1.item_id = t3.item_id), cte2 as (
+
+select
+	cte1.seller_id	
+from
+	cte1 
+where cte1.favorite_brand = cte1.item_brand and cte1.rank = 2)	
+	
+select
+	user_id,
+	case when cte2.seller_id is null then 'no' else 'yes' end second_item_fav_brand	
+from
+	Users u
+left join cte2 on u.user_id = cte2.seller_id
+
 
 
 
